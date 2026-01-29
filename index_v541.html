@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heba parfum | المتجر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;800&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --coffee-dark: #3E2723;
+            --coffee-light: #6D4C41;
+            --gold-accent: #D7CCC8;
+            --gold-luxury: #C19A6B;
+            --black-bg: #121212;
+            --white: #ffffff;
+            --off-white: #fcfcfc;
+            --danger: #dc3545;
+            --success: #28a745;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+        body { background-color: var(--off-white); color: var(--black-bg); overflow-x: hidden; }
+
+        /* --- UI Styles --- */
+        .top-bar { background-color: var(--black-bg); color: var(--gold-luxury); text-align: center; padding: 10px; font-size: 0.9rem; }
+        
+        /* --- تنسيق الهيدر (الشعار + الاسم) --- */
+        header { 
+            display: flex; 
+            justify-content: center; /* توسيط المحتوى */
+            align-items: center; 
+            padding: 1rem 5%; 
+            background-color: var(--white); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            gap: 15px; /* مسافة بين الصورة والاسم */
+        }
+        
+        .site-logo-img {
+            height: 65px; /* حجم الصورة */
+            width: auto; 
+            display: block;
+        }
+
+        .header-brand-name {
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.2rem; 
+            font-weight: 700; 
+            color: var(--coffee-dark); 
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        .header-brand-name span { color: var(--gold-luxury); }
+
+        /* --- باقي الستايل --- */
+        .hero { position: relative; height: 85vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(62, 39, 35, 0.6)), url('https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?q=80&w=2070'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); }
+        .hero-content h1 { font-size: 3.5rem; margin-bottom: 1rem; font-family: 'Playfair Display', serif; color: var(--gold-luxury); }
+        .btn-main { padding: 14px 40px; background-color: var(--gold-luxury); color: var(--white); border: none; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; }
+        
+        .trust-badges { background-color: var(--coffee-dark); color: var(--white); padding: 2rem 5%; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; text-align: center; }
+        .badge-item i { font-size: 2rem; color: var(--gold-luxury); margin-left: 10px; }
+
+        .products-section { padding: 5rem 5%; text-align: center; }
+        .section-title { font-size: 2.5rem; color: var(--coffee-dark); margin-bottom: 3rem; position: relative; display: inline-block; font-family: 'Playfair Display', serif; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        
+        .product-card { background: var(--white); border: 1px solid #eee; position: relative; overflow: hidden; transition: 0.4s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--gold-luxury); }
+        .product-img { width: 100%; height: 350px; object-fit: cover; }
+        .product-info { padding: 1.5rem; }
+        .product-title { font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .product-price { color: var(--coffee-light); font-size: 1.3rem; font-weight: bold; display: block; margin-bottom: 1rem; }
+        .btn-buy { width: 100%; padding: 12px; background-color: var(--black-bg); color: var(--white); border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-buy:hover { background-color: var(--gold-luxury); }
+
+        /* --- Modal Styles --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(62, 39, 35, 0.9); justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background-color: var(--white); padding: 2.5rem; width: 90%; max-width: 450px; position: relative; border-top: 5px solid var(--gold-luxury); border-radius: 5px; }
+        .close-btn { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; cursor: pointer; }
+        .form-group { margin-bottom: 1.2rem; text-align: right; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; outline: none; }
+        .form-group input:focus { border-color: var(--gold-luxury); }
+
+        /* --- Footer --- */
+        footer { background-color: var(--black-bg); color: var(--white); padding: 4rem 5% 1rem; margin-top: 2rem; border-top: 4px solid var(--gold-luxury); text-align: center; }
+        .store-address { margin: 15px 0; padding: 10px; color: #ddd; border: 1px solid rgba(255,255,255,0.1); border-width: 1px 0; }
+        .social-links { display: flex; justify-content: center; gap: 25px; margin: 20px 0; }
+        .social-btn { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 1.5rem; transition: 0.3s; }
+        .social-btn:hover { background: var(--gold-luxury); transform: translateY(-5px); }
+        .copyright { border-top: 1px solid #333; padding-top: 1.5rem; color: #888; font-size: 0.9rem; }
+        .dev-contact-btn { display: inline-block; margin-top: 15px; padding: 6px 15px; border: 1px solid var(--gold-luxury); color: var(--gold-luxury); text-decoration: none; border-radius: 20px; font-size: 0.85rem; }
+
+        /* Admin Styles */
+        body.admin-mode .admin-controls { display: block !important; }
+        body.admin-mode .btn-buy { background-color: var(--coffee-light); opacity: 0.5; pointer-events: none; }
+        #adminBar { display: none; background-color: var(--coffee-dark); color: white; padding: 15px; text-align: center; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 3000; border-top: 3px solid var(--gold-luxury); }
+        .admin-controls { display: none; margin-top: 10px; }
+        .btn-delete { background: var(--danger); color: white; border: none; padding: 5px 10px; cursor: pointer; width: 100%; margin-top: 5px; }
+        .add-product-card { display: none; border: 2px dashed var(--gold-luxury); background: #fff8f0; align-items: center; justify-content: center; flex-direction: column; cursor: pointer; min-height: 400px; }
+        body.admin-mode .add-product-card { display: flex; }
+        .add-icon { font-size: 4rem; color: var(--gold-luxury); margin-bottom: 10px; }
+        .admin-trigger { color: #333; cursor: pointer; font-size: 0.8rem; margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">توصيل سريع ومجاني للطلبات الكبيرة | الدفع عند الاستلام مضمون</div>
+
+    <header>
+        <img src="https://i.ibb.co/Z16FsHhY/444444444488.jpg" alt="Heba parfum Logo" class="site-logo-img">
+        <div class="header-brand-name">Heba <span>parfum</span></div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>عطرك.. بصمتك الخاصة</h1>
+            <p>تشكيلة فريدة من العطور التي تمزج بين الفخامة والأصالة.</p>
+            <a href="#products" class="btn-main">تسوقي الآن</a>
+        </div>
+    </section>
+
+    <div class="trust-badges">
+        <div class="badge-item"><i class="fas fa-hand-holding-dollar"></i><span>الدفع عند الاستلام</span></div>
+        <div class="badge-item"><i class="fas fa-truck-fast"></i><span>توصيل سريع</span></div>
+        <div class="badge-item"><i class="fas fa-gem"></i><span>جودة أصلية</span></div>
+    </div>
+
+    <section class="products-section" id="products">
+        <h2 class="section-title">قائمة المنتجات</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('orderModal')">&times;</span>
+            <h3 style="text-align: center; color: var(--coffee-dark); margin-bottom: 10px;">إتمام الطلب</h3>
+            <p id="selectedProductText" style="text-align: center; color: var(--gold-luxury); margin-bottom: 20px; font-weight: bold;"></p>
+            <form onsubmit="submitToWhatsapp(event)">
+                <div class="form-group"><label>الاسم</label><input type="text" id="c_name" required></div>
+                <div class="form-group"><label>الهاتف</label><input type="tel" id="c_phone" required></div>
+                <div class="form-group"><label>المدينة</label><input type="text" id="c_city" required></div>
+                <button type="submit" class="btn-buy">تأكيد الطلب</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h3 style="text-align: center; margin-bottom: 15px;">دخول صاحب المتجر</h3>
+            <div class="form-group"><label>كلمة المرور</label><input type="password" id="adminPass" placeholder="******"></div>
+            <button onclick="checkAdmin()" class="btn-buy" style="background: var(--coffee-dark);">دخول</button>
+        </div>
+    </div>
+
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('addProductModal')">&times;</span>
+            <h3 style="text-align: center; margin-bottom: 15px;">إضافة منتج جديد</h3>
+            <div class="form-group"><label>اسم المنتج</label><input type="text" id="new_name"></div>
+            <div class="form-group"><label>السعر</label><input type="text" id="new_price"></div>
+            <div class="form-group"><label>رابط الصورة</label><input type="text" id="new_img"></div>
+            <button onclick="saveNewProduct()" class="btn-buy" style="background: var(--success);">حفظ المنتج</button>
+        </div>
+    </div>
+
+    <div id="adminBar">
+        <span>⚠️ <strong>وضع المدير:</strong> يمكنك الآن إضافة وحذف المنتجات.</span>
+        <button onclick="logoutAdmin()" style="background: white; color: black; border: none; padding: 5px 15px; margin-right: 10px; cursor: pointer; font-weight: bold;">خروج</button>
+    </div>
+
+    <footer>
+        <div class="header-brand-name" style="color:white; margin-bottom: 15px;">Heba <span>parfum</span></div>
+        <div class="store-address">Souk El Had, Agadir Port 6 N° 1176</div>
+        <div class="social-links">
+            <a href="https://www.instagram.com/hebaparfums?igsh=MTduOGNueHVsNmxtMw==" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@hebaparfum?_r=1&_t=ZS-93SFK9laqCP" target="_blank" class="social-btn"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="copyright">
+            جميع الحقوق محفوظة 2026 &copy; <br>
+            By <span class="dev-name">mohammed ait saleh</span>
+            <a href="https://www.instagram.com/la_rider_rubia?igsh=dmNxOGhoMmYxdjZw" target="_blank" class="dev-contact-btn">تواصل مع المطور</a>
+            <i class="fas fa-lock admin-trigger" onclick="openLogin()"></i>
+        </div>
+    </footer>
+
+    <script>
+        // --- المنتجات الثلاثة الأخيرة ---
+        const STORAGE_KEY = 'hibaStore_v2';
+
+        const defaultProducts = [
+            { 
+                id: 1, 
+                name: "عطر حصري جديد", 
+                price: "120 DH", 
+                img: "https://i.ibb.co/xStBtsMX/Whats-App-Image-2026-01-28-at-23-22-17.jpg" 
+            },
+            { 
+                id: 2, 
+                name: "عطر فاخر (إصدار خاص)", 
+                price: "120 DH", 
+                img: "https://i.ibb.co/GfxQDWKm/1234578.jpg" 
+            },
+            { 
+                id: 3, 
+                name: "عطر جديد (إضافة خاصة)", 
+                price: "120 DH", 
+                img: "https://i.ibb.co/m59ywDtw/454545.jpg" 
+            }
+        ];
+
+        // تحميل المنتجات
+        let products = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultProducts;
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            
+            if(products.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">لا توجد منتجات حالياً.</p>';
+            }
+
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300?text=صورة+غير+متوفرة'" alt="${p.name}" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">${p.name}</h3>
+                        <span class="product-price">${p.price}</span>
+                        <button class="btn-buy" onclick="openOrderModal('${p.name}')">اطلب الآن</button>
+                        <div class="admin-controls">
+                            <button class="btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i> حذف المنتج</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            const addCard = document.createElement('div');
+            addCard.className = 'product-card add-product-card';
+            addCard.onclick = () => document.getElementById('addProductModal').style.display = 'flex';
+            addCard.innerHTML = `<i class="fas fa-plus-circle add-icon"></i><h3>إضافة منتج جديد</h3>`;
+            grid.appendChild(addCard);
+        }
+
+        function openLogin() { document.getElementById('loginModal').style.display = 'flex'; }
+        
+        function checkAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === "admin123") {
+                document.body.classList.add('admin-mode');
+                document.getElementById('adminBar').style.display = 'block';
+                closeModal('loginModal');
+                alert("مرحباً بك في لوحة التحكم!");
+            } else { alert("كلمة المرور خاطئة"); }
+        }
+
+        function logoutAdmin() {
+            document.body.classList.remove('admin-mode');
+            document.getElementById('adminBar').style.display = 'none';
+        }
+
+        function saveNewProduct() {
+            const name = document.getElementById('new_name').value;
+            const price = document.getElementById('new_price').value;
+            const img = document.getElementById('new_img').value || "https://via.placeholder.com/300";
+
+            if(name && price) {
+                const newProduct = { id: Date.now(), name: name, price: price, img: img };
+                products.push(newProduct);
+                updateStorage();
+                closeModal('addProductModal');
+                document.getElementById('new_name').value = '';
+                document.getElementById('new_price').value = '';
+                document.getElementById('new_img').value = '';
+            } else { alert("المرجو ملء المعلومات"); }
+        }
+
+        function deleteProduct(id) {
+            if(confirm("هل أنت متأكد من حذف هذا المنتج؟")) {
+                products = products.filter(p => p.id !== id);
+                updateStorage();
+            }
+        }
+
+        function updateStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+            renderProducts();
+        }
+
+        let currentOrder = "";
+        function openOrderModal(prodName) {
+            currentOrder = prodName;
+            document.getElementById('selectedProductText').innerText = `المنتج: ${prodName}`;
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+
+        function submitToWhatsapp(e) {
+            e.preventDefault();
+            const name = document.getElementById('c_name').value;
+            const phone = document.getElementById('c_phone').value;
+            const city = document.getElementById('c_city').value;
+            const text = `طلب جديد عبر الموقع:%0a📦 المنتج: ${currentOrder}%0a👤 الاسم: ${name}%0a📱 الهاتف: ${phone}%0a📍 المدينة: ${city}`;
+            window.open(`https://wa.me/212677615866?text=${text}`, '_blank');
+            closeModal('orderModal');
+        }
+
+        renderProducts();
+
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) { e.target.style.display = 'none'; }
+        }
+    </script>
+</body>
+</html>
